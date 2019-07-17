@@ -47,7 +47,8 @@
 
                 for (q = 0; q < response.data.length; q++) {
                     var newimage= $("<img>");
-                    newimage.attr("src",response.data[q].images.original.url)
+                    newimage.attr("src",response.data[q].images.original.url);
+                    newimage.attr("data-still",response.data[q].images.original.url)
                     $("#images").prepend(newimage);
                 };
             });
