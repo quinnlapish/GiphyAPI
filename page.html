@@ -11,64 +11,80 @@
     
         <!--buttons-->
 
-        <button id="wiggle"> Wiggle </button>
-        <button id="Shake"> Shake </button>
-        <button id="Twist"> Twist</button>
-        <button id="Shuffle"> Shuffle </button>
-        <button id="Roll"> Roll</button>
-        <button id="Floss"> Floss </button>
-        <button id="Tpose"> t pose </button>
-        <button id="moonwalk"> moon walk </button>
+        <div class="row" id="buttonsbutton">
+
+            
+
+        </div>
+
+        <div class="row" id="images">
+
+
+
+
+        </div>
+        
 
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
          //api//
-         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=JdGuKFSaOl38U1qvXrt7n8fZGmNv50gE";
+         var queryURLsearch = "https://api.giphy.com/v1/gifs/search?api_key=JdGuKFSaOl38U1qvXrt7n8fZGmNv50gE&q=";
+         var queryend = "&limit=10&offset=0&rating=G&lang=en";
 
-        var topics=["dogs","cows","family guy","dancing","LOL","shakeit", "jesus"];
+        var topics=["dog","Shake","Twist","Shuffle","flapper","Floss", "fresh+dance", "moonwalk"];
   
-           
-            $(".buttons").on("click", function(){
-                var searchquery = $(this).attr("id");
-         
+        function gifSearch( search ){
+            console.log( "searching for: "+search)
             $.ajax({
-              url: queryURL,
-              method: "GET"
+                url: queryURLsearch + search + queryend,
+                method: "GET"
             })
-      
-              // After the data from the AJAX request comes back
-              .then(function(response) {
-      
-                // Saving the image_original_url property
-                var imageUrl = response.data.image_original_url;
-      
-                // Creating and storing an image tag
-                var dogs = $("<img>");
-      
-                // Setting the catImage src attribute to imageUrl
-                dogs.attr("src", imageUrl);
-                dogs.attr("alt", "cat image");
-      
-                // Prepending the catImage to the images div
-                $("#images").prepend(dogs);
+            // After the data from the AJAX request comes back
+            .then(function(response) {
 
-                $(".gif").on("click", function() {
+                console.log(response);
+
+                for (q = 0; q < response.data.length; q++) {
+                    var newimage= $("<img>");
+                    newimage.attr("src",response.data[q].images.original.url)
+                    $("#images").prepend(newimage);
+                };
+            });
+        }
+
+     
+
+                     $(".gif").on("click", function() {
       
       var state = $(this).attr("data-state");
-   
-      if (state === "still") {
+        if (state === "still") {
         $(this).attr("src", $(this).attr("data-animate"));
-        $(this).attr("data-state", "animate");
-      } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-      }
-    });
-              });
-          });
+       $(this).attr("data-state", "animate");
+     } else {
+       $(this).attr("src", $(this).attr("data-still"));
+       $(this).attr("data-state", "still");
+     }});
+   
+
+        // linking button to topics//
+        for (i = 0; i < topics.length; i++) { 
+            $("#buttonsbutton").append(
+                `<button id='${topics[i]}'>${topics[i]}</button>` );
+                
+        }
+   
+        // search with buttons
+        $("button").on("click", function(){
+            var searchquery = $(this).attr("id");
+            gifSearch( searchquery );
+        });
+
+
+            
+
+
         </script>
 
 </body>
 </html>
-
