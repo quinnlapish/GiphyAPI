@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        <!--buttons-->
+
+        <button id="wiggle"> Wiggle </button>
+        <button id="Shake"> Shake </button>
+        <button id="Twist"> Twist</button>
+        <button id="Shuffle"> Shuffle </button>
+        <button id="Roll"> Roll</button>
+        <button id="Floss"> Floss </button>
+        <button id="Tpose"> t pose </button>
+        <button id="moonwalk"> moon walk </button>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+         //api//
+         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=JdGuKFSaOl38U1qvXrt7n8fZGmNv50gE";
+
+        var topics=["dogs","cows","family guy","dancing","LOL","shakeit", "jesus"];
+  
+           
+            $(".buttons").on("click", function(){
+                var searchquery = $(this).attr("id");
+         
+            $.ajax({
+              url: queryURL,
+              method: "GET"
+            })
+      
+              // After the data from the AJAX request comes back
+              .then(function(response) {
+      
+                // Saving the image_original_url property
+                var imageUrl = response.data.image_original_url;
+      
+                // Creating and storing an image tag
+                var dogs = $("<img>");
+      
+                // Setting the catImage src attribute to imageUrl
+                dogs.attr("src", imageUrl);
+                dogs.attr("alt", "cat image");
+      
+                // Prepending the catImage to the images div
+                $("#images").prepend(dogs);
+
+                $(".gif").on("click", function() {
+      
+      var state = $(this).attr("data-state");
+   
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
+              });
+          });
+        </script>
+
+</body>
+</html>
+
